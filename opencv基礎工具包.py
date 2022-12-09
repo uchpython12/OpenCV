@@ -165,16 +165,89 @@ def 影像合併_圖像大小不一致(image1_path,image2_path):
     image4[:h1, :w1, :3] = image1
     image4[h1:h1 + h2, :w2, :3] = image2
     show_img('vertical', image4)
+def 彩色圖像轉灰階(image_path):
+    # 顯示圖檔
+    def show_img(name, img):
+        cv2.imshow(name, img)
+        cv2.waitKey(0)
 
+    image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+    image = cv2.resize(image, (250, 250))
+    show_img('gray1', image)
+
+    image = cv2.imread(image_path)
+    image = cv2.resize(image, (250, 250))
+    show_img('origin', image)
+    image = cv2.imread(image_path)
+    image = cv2.resize(image, (250, 250))
+    image1=cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
+    show_img('gray2', image1)
+def 彩色圖像二值化(image_path):
+    # 顯示圖檔
+    def show_img(name, img):
+        cv2.imshow(name, img)
+        cv2.waitKey(0)
+
+    image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+    image = cv2.resize(image, (280, 280))
+    show_img('gray1', image)
+
+    ret1, mask1 = cv2.threshold(image, 127, 255, cv2.THRESH_BINARY)
+    show_img('BINARY', mask1)
+    ret2, mask2 = cv2.threshold(image, 127, 255, cv2.THRESH_BINARY_INV)
+    show_img('BINARY_INV', mask2)
+    ret3, mask3 = cv2.threshold(image, 127, 255, cv2.THRESH_TRUNC)
+    show_img('TRUNC', mask3)
+    ret4, mask4 = cv2.threshold(image, 127, 255, cv2.THRESH_TOZERO)
+    show_img('TOZERO', mask4)
+    ret5, mask5 = cv2.threshold(image, 127, 255, cv2.THRESH_TOZERO_INV)
+    show_img('TOZERO_INV', mask5)
+
+# 影像侵蝕：以Kernel(卷積核)
+# 滑動進行卷積運算，使影像中白色區域縮小、黑色區域擴大。
+# 用途：可用於去除影像中的噪點或加粗字跡。
+def 影像侵蝕(image_path):
+    # 顯示圖檔
+    def show_img(name, img):
+        cv2.imshow(name, img)
+        cv2.waitKey(0)
+    image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+    image = cv2.resize(image, (300, 300))
+    show_img('origin', image)
+
+    kernel = np.ones((3, 3), np.uint8)
+    erode_image = cv2.erode(image, kernel, iterations=1)
+    show_img('erode_image', erode_image)
+# 膨脹：以Kernel(卷積核)
+# 滑動進行卷積運算，使影像中白色區域擴大、黑色區域縮小。
+#
+# 用途：可用於填補影像中的小孔洞或使字跡變細。
+def 影像膨脹(image_path):
+    # 顯示圖檔
+    def show_img(name, img):
+        cv2.imshow(name, img)
+        cv2.waitKey(0)
+
+    image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+    image = cv2.resize(image, (300, 300))
+    show_img('origin', image)
+
+    kernel = np.ones((3, 3), np.uint8)
+    dilate_image = cv2.dilate(image, kernel, iterations=1)
+    show_img('dilate_image', dilate_image)
 # 讀取圖片("image",'./大腦已超載.jpg')
 # 存取圖片("./大腦已超載_新增圖片.jpg","大腦已超載.jpg",)
 # 讀取影片("影片.mp4",3)
 # 水平翻轉("level",'./大腦已超載.jpg')
 # 垂直翻轉("vertical",'./大腦已超載.jpg')
-# 影像旋轉_90度旋轉("./大腦已超載_新增圖片.jpg")
-# 任意角度旋轉("./大腦已超載_新增圖片.jpg")
-# 影像放大縮小("./大腦已超載_新增圖片.jpg")
-# 比例縮放("./大腦已超載_新增圖片.jpg")
-# 影像分割("./大腦已超載_新增圖片.jpg")
-# 影像合併_圖像大小一致("./大腦已超載_新增圖片.jpg",'./peach.jpg')
-影像合併_圖像大小不一致("./大腦已超載_新增圖片.jpg",'./peach.jpg')
+# 影像旋轉_90度旋轉("./大腦已超載.jpg")
+# 任意角度旋轉("./大腦已超載.jpg")
+# 影像放大縮小("./大腦已超載.jpg")
+# 比例縮放("./大腦已超載.jpg")
+# 影像分割("./大腦已超載.jpg")
+# 影像合併_圖像大小一致("./大腦已超載.jpg",'./peach.jpg')
+# 影像合併_圖像大小不一致("./大腦已超載.jpg",'./peach.jpg')
+# 彩色圖像轉灰階("./大腦已超載.jpg")
+# 彩色圖像二值化("./大腦已超載.jpg")
+# 影像侵蝕("./大腦已超載.jpg")
+# 影像膨脹("./大腦已超載.jpg")
